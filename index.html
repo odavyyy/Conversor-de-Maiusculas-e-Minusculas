@@ -1,684 +1,647 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversor de Maiúsculas e Minúsculas</title>
-    <style>
-        :root {
-            --bg: #0f0f1a;
-            --card-bg: #1a1a2e;
-            --primary: #7c5cfc;
-            --primary-hover: #6a48e8;
-            --secondary: #ff6b9d;
-            --secondary-hover: #e85d8a;
-            --text: #e8e8f0;
-            --text-muted: #a0a0b8;
-            --border: #2a2a3e;
-            --textarea-bg: #12121f;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            --glow-primary: 0 0 30px rgba(124, 92, 252, 0.3);
-            --glow-secondary: 0 0 30px rgba(255, 107, 157, 0.3);
-            --radius: 20px;
-            --radius-sm: 12px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de Maiúsculas e Minúsculas - Múltiplas Opções</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --card-bg: #1a1a2e;
+      --primary: #7c5cfc;
+      --primary-hover: #6a48e8;
+      --secondary: #ff6b9d;
+      --accent-teal: #2dd4bf;
+      --accent-amber: #f59e0b;
+      --text: #e8e8f0;
+      --text-muted: #a0a0b8;
+      --border: #2a2a3e;
+      --textarea-bg: #12121f;
+      --shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            background-image:
-                radial-gradient(ellipse at 30% 20%, rgba(124, 92, 252, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 70%, rgba(255, 107, 157, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 50% 50%, rgba(100, 140, 255, 0.04) 0%, transparent 70%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            color: var(--text);
-        }
+    body {
+      font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 30% 20%, rgba(124, 92, 252, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 70%, rgba(255, 107, 157, 0.06) 0%, transparent 60%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--text);
+    }
 
-        /* Partículas decorativas */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
+    /* Partículas decorativas */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.15; }
+      100% { transform: translateY(-10vh) scale(1.4); opacity: 0; }
+    }
 
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            animation: floatUp linear infinite;
-            opacity: 0;
-        }
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 750px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 36px 34px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 0.6s ease-out;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.6;
-            }
-            90% {
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1.4);
-                opacity: 0;
-            }
-        }
+    /* Cabeçalho */
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .icon-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), #9b7bff);
+      margin-bottom: 14px;
+      box-shadow: 0 0 28px rgba(124, 92, 252, 0.4);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 22px rgba(124, 92, 252, 0.35); }
+      50% { box-shadow: 0 0 42px rgba(124, 92, 252, 0.65); }
+    }
+    .icon-wrapper svg {
+      width: 26px;
+      height: 26px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .header p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 700px;
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 40px 36px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-            animation: fadeInUp 0.6s ease-out;
-        }
+    /* Área de texto */
+    .textarea-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      background: var(--textarea-bg);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      font-size: 1rem;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      color: #e0e0f0;
+      resize: vertical;
+      transition: var(--transition);
+      line-height: 1.6;
+      min-height: 110px;
+      max-height: 350px;
+    }
+    textarea::placeholder {
+      color: #4b4b66;
+      font-style: italic;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(124, 92, 252, 0.08), 0 0 30px rgba(124, 92, 252, 0.3);
+    }
+    .char-count {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: 0.75rem;
+      color: #5a5a78;
+      background: rgba(18, 18, 31, 0.9);
+      padding: 4px 12px;
+      border-radius: 20px;
+      pointer-events: none;
+      font-weight: 500;
+    }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    /* Botões principais (primeira fileira) */
+    .main-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      flex: 1;
+      min-width: 120px;
+      padding: 14px 18px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      font-family: inherit;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: var(--transition);
+      border-radius: inherit;
+    }
+    .btn-primary:hover::after {
+      background: rgba(255,255,255,0.08);
+    }
+    .btn-primary:active {
+      transform: scale(0.95);
+    }
+    .btn-upper {
+      background: linear-gradient(135deg, #7c5cfc, #6a4ff0);
+      box-shadow: 0 8px 22px rgba(124,92,252,0.35);
+    }
+    .btn-lower {
+      background: linear-gradient(135deg, #ff6b9d, #f05278);
+      box-shadow: 0 8px 22px rgba(255,107,157,0.35);
+    }
 
-        /* Cabeçalho */
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
+    /* Segunda fileira: mais transformações */
+    .transform-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-transform {
+      flex: 1;
+      min-width: 100px;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      background: rgba(255,255,255,0.03);
+      color: #cacaf0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      letter-spacing: 0.02em;
+      font-family: inherit;
+      backdrop-filter: blur(4px);
+    }
+    .btn-transform:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: #5a5a85;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-transform:active {
+      transform: scale(0.94);
+    }
+    .btn-transform svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
 
-        .icon-wrapper {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, var(--primary), #9b7bff);
-            margin-bottom: 16px;
-            box-shadow: var(--glow-primary);
-            animation: pulse 2.5s ease-in-out infinite;
-        }
+    /* Terceira fileira: ações utilitárias */
+    .actions-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-utility {
+      padding: 9px 16px;
+      border-radius: 50px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #a0a0c0;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.03em;
+      font-family: inherit;
+    }
+    .btn-utility:hover {
+      background: rgba(255,255,255,0.06);
+      color: #d0d0f0;
+      border-color: #555;
+    }
+    .btn-utility:active {
+      transform: scale(0.93);
+    }
 
-        @keyframes pulse {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(124, 92, 252, 0.35);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(124, 92, 252, 0.6), 0 0 60px rgba(124, 92, 252, 0.25);
-            }
-        }
+    /* Seção de exemplos */
+    .examples-section {
+      background: rgba(18,18,31,0.7);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 10px;
+    }
+    .examples-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #b8b8d0;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    .example-card {
+      background: #12121f;
+      border: 1px solid #2a2a40;
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.78rem;
+      color: #b0b0cc;
+      text-align: center;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+    .example-card:hover {
+      border-color: var(--primary);
+      background: #1a1a35;
+      color: #e0e0ff;
+      transform: translateY(-2px);
+    }
+    .example-card .label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      color: #7c8aa0;
+    }
+    .example-card .value {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-weight: 500;
+    }
 
-        .icon-wrapper svg {
-            width: 28px;
-            height: 28px;
-            fill: none;
-            stroke: #fff;
-            stroke-width: 2;
-        }
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120px);
+      background: #2a2a40;
+      color: #e0e0f0;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 100;
+      pointer-events: none;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+    }
 
-        .header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: #fff;
-            margin-bottom: 6px;
-        }
-
-        .header p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        .header .badge {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 6px 14px;
-            background: rgba(124, 92, 252, 0.12);
-            border: 1px solid rgba(124, 92, 252, 0.25);
-            border-radius: 50px;
-            font-size: 0.78rem;
-            color: #b8a4ff;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-        }
-
-        /* Área de texto */
-        .textarea-wrapper {
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        textarea {
-            width: 100%;
-            height: 180px;
-            background: var(--textarea-bg);
-            border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 18px 20px;
-            font-size: 1rem;
-            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-            color: #e0e0f0;
-            resize: vertical;
-            transition: var(--transition);
-            line-height: 1.6;
-            letter-spacing: 0.01em;
-            min-height: 120px;
-            max-height: 400px;
-        }
-
-        textarea::placeholder {
-            color: #5a5a78;
-            font-style: italic;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(124, 92, 252, 0.08), var(--glow-primary);
-            background: #141425;
-        }
-
-        .char-count {
-            position: absolute;
-            bottom: 12px;
-            right: 16px;
-            font-size: 0.75rem;
-            color: #5a5a78;
-            background: rgba(18, 18, 31, 0.85);
-            padding: 4px 10px;
-            border-radius: 20px;
-            pointer-events: none;
-            letter-spacing: 0.03em;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        textarea:focus~.char-count {
-            color: #8a8aaa;
-        }
-
-        /* Botões */
-        .buttons-row {
-            display: flex;
-            gap: 14px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            flex: 1;
-            min-width: 140px;
-            padding: 15px 20px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 0.01em;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            position: relative;
-            overflow: hidden;
-            white-space: nowrap;
-            font-family: inherit;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 255, 255, 0);
-            transition: var(--transition);
-            border-radius: inherit;
-        }
-
-        .btn:hover::after {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .btn:active {
-            transform: scale(0.96);
-        }
-
-        .btn-uppercase {
-            background: linear-gradient(135deg, var(--primary), #8b6cf8);
-            color: #fff;
-            box-shadow: 0 8px 25px rgba(124, 92, 252, 0.3);
-        }
-
-        .btn-uppercase:hover {
-            box-shadow: 0 12px 35px rgba(124, 92, 252, 0.45);
-            transform: translateY(-2px);
-        }
-
-        .btn-lowercase {
-            background: linear-gradient(135deg, var(--secondary), #ff5085);
-            color: #fff;
-            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
-        }
-
-        .btn-lowercase:hover {
-            box-shadow: 0 12px 35px rgba(255, 107, 157, 0.45);
-            transform: translateY(-2px);
-        }
-
-        .btn svg {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
-
-        /* Botões de ação secundários */
-        .actions-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn-sm {
-            padding: 10px 16px;
-            font-size: 0.82rem;
-            font-weight: 500;
-            border-radius: 50px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-            letter-spacing: 0.02em;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-sm:hover {
-            background: rgba(255, 255, 255, 0.04);
-            color: #d0d0e0;
-            border-color: #444;
-        }
-        .btn-sm:active {
-            transform: scale(0.94);
-            background: rgba(255, 255, 255, 0.07);
-        }
-
-        .btn-sm svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* Toast de notificação */
-        .toast {
-            position: fixed;
-            top: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-120px);
-            background: #2a2a40;
-            color: #e0e0f0;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            z-index: 100;
-            pointer-events: none;
-            border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
-        .toast .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #4ade80;
-            flex-shrink: 0;
-        }
-
-        /* Responsivo */
-        @media (max-width: 600px) {
-            .container {
-                padding: 28px 18px;
-                border-radius: 16px;
-            }
-            .header h1 {
-                font-size: 1.4rem;
-            }
-            .btn {
-                padding: 13px 14px;
-                font-size: 0.85rem;
-                min-width: 120px;
-            }
-            .buttons-row {
-                gap: 10px;
-            }
-            textarea {
-                height: 140px;
-                font-size: 0.9rem;
-                padding: 14px 16px;
-            }
-            .icon-wrapper {
-                width: 48px;
-                height: 48px;
-                border-radius: 14px;
-            }
-            .icon-wrapper svg {
-                width: 22px;
-                height: 22px;
-            }
-        }
-    </style>
+    @media (max-width: 600px) {
+      .container { padding: 24px 18px; }
+      .btn-primary { font-size: 0.85rem; padding: 13px 12px; }
+      .btn-transform { font-size: 0.75rem; padding: 10px 8px; }
+    }
+  </style>
 </head>
 <body>
+  <div class="particles" id="particles"></div>
 
-    <!-- Partículas de fundo -->
-    <div class="particles" id="particles"></div>
+  <div class="toast" id="toast">
+    <span class="dot"></span>
+    <span id="toastMsg"></span>
+  </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast">
-        <span class="dot"></span>
-        <span id="toastMsg">Texto copiado!</span>
+  <div class="container">
+    <div class="header">
+      <div class="icon-wrapper">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <text x="4" y="17" font-size="14" fill="white" stroke="none" font-weight="700" font-family="serif">A</text>
+          <text x="13" y="12" font-size="10" fill="white" stroke="none" font-weight="600" font-family="serif">a</text>
+        </svg>
+      </div>
+      <h1>Conversor de Maiúsculas e Minúsculas</h1>
+      <p>Transforme seu texto com um clique. Escolha entre várias opções de capitalização.</p>
     </div>
 
-    <!-- Container principal -->
-    <div class="container">
-        <!-- Cabeçalho -->
-        <div class="header">
-            <div class="icon-wrapper">
-                <!-- Ícone Aa -->
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <text x="4" y="17" font-size="14" fill="white" stroke="none" font-weight="700" font-family="serif">A</text>
-                    <text x="13" y="12" font-size="10" fill="white" stroke="none" font-weight="600" font-family="serif">a</text>
-                </svg>
-            </div>
-            <h1>Conversor de Maiúsculas e Minúsculas</h1>
-            <p>Transforme seus textos instantaneamente.<br>Digite ou cole sua frase abaixo e escolha a conversão desejada.</p>
-            <span class="badge">✨ Rápido • Gratuito • Ilimitado</span>
-        </div>
-
-        <!-- Área de texto -->
-        <div class="textarea-wrapper">
-            <textarea
-            id="textInput"
-            placeholder="Digite ou cole seu texto aqui... &#10;Exemplo: &quot;Olá Mundo!&quot; → &quot;OLÁ MUNDO!&quot; ou &quot;olá mundo!&quot;"
-            aria-label="Texto para conversão"
-        ></textarea>
-        <span class="char-count" id="charCount">0 caracteres</span>
+    <div class="textarea-wrapper">
+      <textarea id="textInput" placeholder="Digite ou cole seu texto aqui... Ex: &quot;olá mundo!&quot;" aria-label="Texto para conversão"></textarea>
+      <span class="char-count" id="charCount">0 caracteres</span>
     </div>
 
-    <!-- Botões principais -->
-    <div class="buttons-row">
-        <button class="btn btn-uppercase" id="btnUpper" aria-label="Converter para maiúsculas">
-            <!-- Ícone seta para cima -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 15 12 9 18 15"></polyline>
-            </svg>
-            MAIÚSCULAS
-        </button>
-        <button class="btn btn-lowercase" id="btnLower" aria-label="Converter para minúsculas">
-            <!-- Ícone seta para baixo -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            minúsculas
-        </button>
+    <!-- Fileira principal: MAIÚSCULAS e minúsculas -->
+    <div class="main-buttons">
+      <button class="btn-primary btn-upper" id="btnUpper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 15 12 9 18 15"/></svg>
+        MAIÚSCULAS
+      </button>
+      <button class="btn-primary btn-lower" id="btnLower">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        minúsculas
+      </button>
     </div>
 
-    <!-- Ações secundárias -->
+    <!-- Segunda fileira: capitalizações especiais -->
+    <div class="transform-row">
+      <button class="btn-transform" id="btnTitle" title="Primeira letra de cada palavra em maiúscula">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16M4 4h16M12 4v16"/></svg>
+        Título
+      </button>
+      <button class="btn-transform" id="btnSentence" title="Apenas a primeira letra da frase em maiúscula">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/></svg>
+        Frase
+      </button>
+      <button class="btn-transform" id="btnAlternating" title="Alternar entre maiúsculas e minúsculas (Ex: aLtErNaDo)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 14 12 10 16 14"/><polyline points="8 10 12 14 16 10"/></svg>
+        aLtErNaDo
+      </button>
+      <button class="btn-transform" id="btnInverse" title="Inverter o caso de cada letra (maiúscula ↔ minúscula)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+        Inverter
+      </button>
+    </div>
+
+    <!-- Ações utilitárias -->
     <div class="actions-row">
-        <button class="btn-sm" id="btnCopy" aria-label="Copiar resultado">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="8" y="2" width="12" height="18" rx="2"></rect>
-                <path d="M16 2v2H8v18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12Z"></path>
-            </svg>
-            Copiar
-        </button>
-        <button class="btn-sm" id="btnClear" aria-label="Limpar texto">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="4" x2="20" y2="20"></line>
-                <line x1="20" y1="4" x2="4" y2="20"></line>
-            </svg>
-            Limpar
-        </button>
-        <button class="btn-sm" id="btnReverse" aria-label="Inverter maiúsculas e minúsculas">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="7 16 12 11 17 16"></polyline>
-                <polyline points="7 8 12 13 17 8"></polyline>
-            </svg>
-            Inverter
-        </button>
+      <button class="btn-utility" id="btnCopy">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="2" width="12" height="18" rx="2"/><path d="M16 2v2H8v18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12Z"/></svg>
+        Copiar
+      </button>
+      <button class="btn-utility" id="btnClear">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+        Limpar
+      </button>
     </div>
-</div>
 
-<script>
+    <!-- Seção de exemplos interativos -->
+    <div class="examples-section">
+      <div class="examples-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>
+        Exemplos rápidos (clique para aplicar ao texto)
+      </div>
+      <div class="example-grid" id="exampleGrid">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
     (function() {
-        // Elementos
-        const textInput = document.getElementById('textInput');
-        const charCount = document.getElementById('charCount');
-        const btnUpper = document.getElementById('btnUpper');
-        const btnLower = document.getElementById('btnLower');
-        const btnCopy = document.getElementById('btnCopy');
-        const btnClear = document.getElementById('btnClear');
-        const btnReverse = document.getElementById('btnReverse');
-        const toast = document.getElementById('toast');
-        const toastMsg = document.getElementById('toastMsg');
+      // Elementos
+      const textInput = document.getElementById('textInput');
+      const charCount = document.getElementById('charCount');
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      const exampleGrid = document.getElementById('exampleGrid');
 
-        // Atualizar contador de caracteres
-        function updateCharCount() {
-            const len = textInput.value.length;
-            charCount.textContent = len === 1 ? '1 caractere' : `${len.toLocaleString('pt-BR')} caracteres`;
-        }
+      // Atualizar contador
+      function updateCharCount() {
+        const len = textInput.value.length;
+        charCount.textContent = len === 1 ? '1 caractere' : `${len.toLocaleString('pt-BR')} caracteres`;
+      }
+      textInput.addEventListener('input', updateCharCount);
 
-        textInput.addEventListener('input', updateCharCount);
-
-        // Função para converter para maiúsculas
-        function toUpperCase() {
-            const val = textInput.value;
-            if (!val.trim()) {
-                showToast('Digite algum texto primeiro!', '#ff9f43');
-                shakeElement(textInput);
-                return;
+      // Funções de transformação
+      const transforms = {
+        upper: (t) => t.toUpperCase(),
+        lower: (t) => t.toLowerCase(),
+        title: (t) => t.replace(/\b\w/g, c => c.toUpperCase()),
+        sentence: (t) => {
+          const trimmed = t.trim();
+          if (!trimmed) return '';
+          return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
+        },
+        alternating: (t) => {
+          let result = '';
+          let upper = true;
+          for (const char of t) {
+            if (/[a-zA-Z]/.test(char)) {
+              result += upper ? char.toUpperCase() : char.toLowerCase();
+              upper = !upper;
+            } else {
+              result += char;
             }
-            textInput.value = val.toUpperCase();
-            updateCharCount();
-            textInput.focus();
-            // Pequeno efeito visual no botão
-            animateButton(btnUpper);
+          }
+          return result;
+        },
+        inverse: (t) => {
+          let res = '';
+          for (const c of t) {
+            res += c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
+          }
+          return res;
         }
+      };
 
-        // Função para converter para minúsculas
-        function toLowerCase() {
-            const val = textInput.value;
-            if (!val.trim()) {
-                showToast('Digite algum texto primeiro!', '#ff9f43');
-                shakeElement(textInput);
-                return;
-            }
-            textInput.value = val.toLowerCase();
-            updateCharCount();
-            textInput.focus();
-            animateButton(btnLower);
+      function applyTransform(transformKey) {
+        const val = textInput.value;
+        if (!val.trim()) {
+          showToast('Digite algum texto primeiro!', '#f59e0b');
+          textInput.focus();
+          return;
         }
-
-        // Função para inverter maiúsculas/minúsculas
-        function toggleCase() {
-            const val = textInput.value;
-            if (!val.trim()) {
-                showToast('Digite algum texto primeiro!', '#ff9f43');
-                shakeElement(textInput);
-                return;
-            }
-            let result = '';
-            for (let i = 0; i < val.length; i++) {
-                const char = val[i];
-                if (char === char.toUpperCase()) {
-                    result += char.toLowerCase();
-                } else {
-                    result += char.toUpperCase();
-                }
-            }
-            textInput.value = result;
-            updateCharCount();
-            textInput.focus();
-            animateButton(btnReverse);
-            showToast('Maiúsculas e minúsculas invertidas!', '#7c5cfc');
-        }
-
-        // Copiar para clipboard
-        function copyToClipboard() {
-            const val = textInput.value;
-            if (!val.trim()) {
-                showToast('Nada para copiar!', '#ff9f43');
-                return;
-            }
-            navigator.clipboard.writeText(val).then(() => {
-                showToast('✅ Texto copiado para a área de transferência!', '#4ade80');
-                animateButton(btnCopy);
-            }).catch(() => {
-                // Fallback
-                textInput.select();
-                document.execCommand('copy');
-                showToast('✅ Texto copiado!', '#4ade80');
-            });
-        }
-
-        // Limpar
-        function clearText() {
-            if (!textInput.value.trim()) {
-                showToast('Já está vazio!', '#ff9f43');
-                return;
-            }
-            textInput.value = '';
-            updateCharCount();
-            textInput.focus();
-            showToast('🧹 Texto limpo!', '#a0a0b8');
-            animateButton(btnClear);
-        }
-
-        // Toast
-        let toastTimer;
-
-        function showToast(message, dotColor = '#4ade80') {
-            clearTimeout(toastTimer);
-            toastMsg.textContent = message;
-            const dot = toast.querySelector('.dot');
-            dot.style.background = dotColor;
-            toast.classList.add('show');
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2200);
-        }
-
-        // Efeito shake
-        function shakeElement(el) {
-            el.style.transition = 'transform 0.1s ease';
-            el.style.transform = 'translateX(-6px)';
-            setTimeout(() => { el.style.transform = 'translateX(6px)'; }, 100);
-            setTimeout(() => { el.style.transform = 'translateX(-4px)'; }, 200);
-            setTimeout(() => { el.style.transform = 'translateX(4px)'; }, 300);
-            setTimeout(() => { el.style.transform = 'translateX(0)'; }, 400);
-        }
-
-        // Animação de clique no botão
-        function animateButton(btn) {
-            btn.style.transform = 'scale(0.93)';
-            setTimeout(() => { btn.style.transform = ''; }, 180);
-        }
-
-        // Event listeners
-        btnUpper.addEventListener('click', toUpperCase);
-        btnLower.addEventListener('click', toLowerCase);
-        btnCopy.addEventListener('click', copyToClipboard);
-        btnClear.addEventListener('click', clearText);
-        btnReverse.addEventListener('click', toggleCase);
-
-        // Atalhos de teclado
-        document.addEventListener('keydown', function(e) {
-            // Ctrl/Cmd + Shift + U = maiúsculas
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'U') {
-                e.preventDefault();
-                toUpperCase();
-            }
-            // Ctrl/Cmd + Shift + L = minúsculas
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'L') {
-                e.preventDefault();
-                toLowerCase();
-            }
-            // Ctrl/Cmd + Shift + I = inverter
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
-                e.preventDefault();
-                toggleCase();
-            }
-        });
-
-        // Partículas decorativas
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const colors = ['#7c5cfc', '#ff6b9d', '#9b7bff', '#ff88aa', '#6b8cff', '#c084fc'];
-            const fragment = document.createDocumentFragment();
-
-            for (let i = 0; i < 35; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 5 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-                particle.style.animationDelay = (Math.random() * 15) + 's';
-                fragment.appendChild(particle);
-            }
-            container.appendChild(fragment);
-        }
-
-        createParticles();
+        textInput.value = transforms[transformKey](val);
         updateCharCount();
+        textInput.focus();
+      }
 
-        console.log('%c✨ Conversor de Maiúsculas e Minúsculas %cpronto!',
-            'font-size:16px; color:#7c5cfc; font-weight:bold;',
-            'color:#a0a0b8;');
-        console.log('%cAtalhos: %cCtrl+Shift+U = MAIÚSCULAS | Ctrl+Shift+L = minúsculas | Ctrl+Shift+I = Inverter',
-            'color:#ff6b9d;', 'color:#a0a0b8;');
+      // Botões
+      document.getElementById('btnUpper').addEventListener('click', () => applyTransform('upper'));
+      document.getElementById('btnLower').addEventListener('click', () => applyTransform('lower'));
+      document.getElementById('btnTitle').addEventListener('click', () => applyTransform('title'));
+      document.getElementById('btnSentence').addEventListener('click', () => applyTransform('sentence'));
+      document.getElementById('btnAlternating').addEventListener('click', () => applyTransform('alternating'));
+      document.getElementById('btnInverse').addEventListener('click', () => applyTransform('inverse'));
+
+      // Copiar
+      document.getElementById('btnCopy').addEventListener('click', () => {
+        const val = textInput.value;
+        if (!val.trim()) {
+          showToast('Nada para copiar!', '#f59e0b');
+          return;
+        }
+        navigator.clipboard.writeText(val).then(() => {
+          showToast('✅ Texto copiado!', '#4ade80');
+        }).catch(() => {
+          textInput.select();
+          document.execCommand('copy');
+          showToast('✅ Texto copiado!', '#4ade80');
+        });
+      });
+
+      // Limpar
+      document.getElementById('btnClear').addEventListener('click', () => {
+        if (!textInput.value.trim()) {
+          showToast('Já está vazio!', '#f59e0b');
+          return;
+        }
+        textInput.value = '';
+        updateCharCount();
+        textInput.focus();
+        showToast('🧹 Texto limpo!', '#a0a0b8');
+      });
+
+      // Toast
+      let toastTimer;
+      function showToast(message, dotColor = '#4ade80') {
+        clearTimeout(toastTimer);
+        toastMsg.textContent = message;
+        toast.querySelector('.dot').style.background = dotColor;
+        toast.classList.add('show');
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+      }
+
+      // Exemplos interativos
+      const sampleText = "olá mundo! como vai você?";
+      const exampleLabels = {
+        upper: 'MAIÚSCULAS',
+        lower: 'minúsculas',
+        title: 'Título',
+        sentence: 'Frase',
+        alternating: 'aLtErNaDo',
+        inverse: 'Invertido'
+      };
+
+      function renderExamples() {
+        exampleGrid.innerHTML = '';
+        Object.entries(transforms).forEach(([key, func]) => {
+          const transformed = func(sampleText);
+          const card = document.createElement('div');
+          card.className = 'example-card';
+          card.innerHTML = `<div class="label">${exampleLabels[key]}</div><div class="value">${escapeHTML(transformed)}</div>`;
+          card.addEventListener('click', () => {
+            textInput.value = transformed;
+            updateCharCount();
+            showToast(`✨ Texto aplicado: ${exampleLabels[key]}`, '#7c5cfc');
+            textInput.focus();
+          });
+          exampleGrid.appendChild(card);
+        });
+      }
+
+      function escapeHTML(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      renderExamples();
+
+      // Atalhos
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
+          const key = e.key.toUpperCase();
+          if (key === 'U') { e.preventDefault(); applyTransform('upper'); }
+          else if (key === 'L') { e.preventDefault(); applyTransform('lower'); }
+          else if (key === 'T') { e.preventDefault(); applyTransform('title'); }
+          else if (key === 'S') { e.preventDefault(); applyTransform('sentence'); }
+          else if (key === 'A') { e.preventDefault(); applyTransform('alternating'); }
+          else if (key === 'I') { e.preventDefault(); applyTransform('inverse'); }
+        }
+      });
+
+      // Partículas
+      function createParticles() {
+        const container = document.getElementById('particles');
+        const colors = ['#7c5cfc','#ff6b9d','#2dd4bf','#f59e0b','#9b7bff'];
+        for (let i=0; i<40; i++) {
+          const p = document.createElement('div');
+          p.className = 'particle';
+          const size = Math.random()*5 + 2;
+          p.style.width = size+'px';
+          p.style.height = size+'px';
+          p.style.background = colors[Math.floor(Math.random()*colors.length)];
+          p.style.left = Math.random()*100+'%';
+          p.style.animationDuration = (Math.random()*15 + 12)+'s';
+          p.style.animationDelay = Math.random()*12+'s';
+          container.appendChild(p);
+        }
+      }
+      createParticles();
+      updateCharCount();
     })();
-</script>
+  </script>
 </body>
 </html>
